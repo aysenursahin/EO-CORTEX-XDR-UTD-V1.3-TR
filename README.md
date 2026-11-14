@@ -15,6 +15,7 @@ Tek bir **base makine** hazırlanır, ondan **AMI** alınır, AMI'den katılımc
 | --- | --- | --- |
 | `scripts/utd-stage.ps1` | Base makineyi UTD için hazırlar: Defender/Firewall kapatır, `C:\x_test` için exclusion ekler, zip'leri **doğru sırada** açar, `server\ud` klasörünü, wallpaper'ları, `komutlar.txt` ve kısayolları yerleştirir | Base makine |
 | `komutlar.txt` | Katılımcı masaüstündeki hazır komut/sorgu listesi | Base makine (stage kopyalar) |
+| `site/index.html` | Lab rehberinin web sürümü: yan menü, kopyalanabilir komutlar, bölüm ilerleme takibi; telefonda da çalışır | Render (statik site) |
 | `aws/00-create-ssm-role.ps1` | SSM için IAM rolü ve instance profile | CloudShell / eğitmen PC |
 | `aws/01-create-ami.ps1` | Base makineden AMI alır (önce UTD hazırlık kontrolü yapar) | CloudShell / eğitmen PC |
 | `aws/02-launch-instances.ps1` | AMI'den `UTD-VICTIM01`/`UTD-ATTACKER01`… **çiftlerini** açar | CloudShell / eğitmen PC |
@@ -25,6 +26,10 @@ Tek bir **base makine** hazırlanır, ondan **AMI** alınır, AMI'den katılımc
 | `aws/07-list-instances.ps1` | Katılımcı listesini (`participants.csv`) çıkarır | CloudShell / eğitmen PC |
 | `aws/08-power.ps1` | Makineleri başlatır / durdurur | CloudShell / eğitmen PC |
 | `aws/99-cleanup.ps1` | Workshop sonrası makineleri (ve istenirse AMI'yi) siler | CloudShell / eğitmen PC |
+
+## Lab rehberi (web)
+
+Katılımcı rehberi `site/` altında tek dosyalık statik sitedir. Yayınlamak için [Render](https://render.com) → **New → Blueprint** → bu repoyu bağlayın → **Apply**; `render.yaml` siteyi `site/` klasöründen yayınlar ve adres `https://eo-utd-workshop.onrender.com/` biçiminde olur. `main`'e her push'ta otomatik güncellenir. Adresi `config.ps1`'deki `LabGuideUrl`/`XdrConsoleUrl` ve `utd-stage.ps1`'e verin ki masaüstü kısayolu ve tarayıcı favorisi doğru yere baksın.
 
 ## Neyi nereye koyuyoruz
 
