@@ -13,7 +13,8 @@ Tek bir **base makine** hazırlanır, ondan **AMI** alınır, AMI'den katılımc
 
 | Dosya | Ne yapar | Nerede çalışır |
 | --- | --- | --- |
-| `scripts/utd-stage.ps1` | Base makineyi UTD için hazırlar: Defender/Firewall kapatır, `C:\x_test` için exclusion ekler, zip'leri **doğru sırada** açar, `server\ud` klasörünü, wallpaper'ları, `komutlar.txt` ve kısayolları yerleştirir | Base makine |
+| `scripts/utd-stage.ps1` | Base makineyi UTD için hazırlar: `quick_config.ps1`'i çalıştırır, `C:\x_test` için exclusion ekler, zip'leri **doğru sırada** açar, `server\ud` klasörünü, wallpaper'ları, `komutlar.txt` ve kısayolları yerleştirir | Base makine |
+| `custom-utd/` | Lab'ın kendi PowerShell dosyaları (`quick_config.ps1`, `downloader.ps1`, `persistency.ps1`) — verbatim | Base / portal upload |
 | `komutlar.txt` | Katılımcı masaüstündeki hazır komut/sorgu listesi | Base makine (stage kopyalar) |
 | `site/index.html` | Lab rehberinin web sürümü: yan menü, kopyalanabilir komutlar, bölüm ilerleme takibi; telefonda da çalışır | Render (statik site) |
 | `aws/00-create-ssm-role.ps1` | SSM için IAM rolü ve instance profile | CloudShell / eğitmen PC |

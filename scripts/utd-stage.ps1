@@ -47,17 +47,23 @@ function Resolve-Local {
 
 Write-Host "==> UTD base stage basliyor" -ForegroundColor Cyan
 
-# --- 1a. IE ESC + Defender + Firewall kapat (quick_config esdegeri) ---
+# --- 1a. IE ESC + Defender + Firewall kapat (lab'in kendi quick_config.ps1'i) ---
 # Lab ortamidir; tek dedektor VICTIM'daki XDR agent olsun diye Defender kapatilir.
-Write-Host "==> Defender / Firewall / IE ESC kapatiliyor" -ForegroundColor Cyan
-try {
-    Set-MpPreference -DisableRealtimeMonitoring $true -ErrorAction SilentlyContinue
-} catch { Write-Host "  Defender realtime kapatilamadi (zaten kapali olabilir)" }
-try { Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False } catch {}
-foreach ($k in @(
-    'HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}',
-    'HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A8-37EF-4b3f-8CFC-4F3A74704073}')) {
-    if (Test-Path $k) { Set-ItemProperty $k -Name IsInstalled -Value 0 -ErrorAction SilentlyContinue }
+# Rehberdeki quick_config.ps1'in aynisi repoda custom-utd\ altinda; onu calistiririz.
+Write-Host "==> quick_config.ps1 (Defender / Firewall / IE ESC)" -ForegroundColor Cyan
+$quick = Resolve-Local $null @("$here\..\custom-utd\quick_config.ps1", "$here\custom-utd\quick_config.ps1")
+if ($quick) {
+    try { & $quick; Write-Host "    quick_config.ps1 calisti: $quick" }
+    catch { Write-Host "    UYARI: quick_config.ps1 hata verdi: $($_.Exception.Message)" -ForegroundColor Yellow }
+} else {
+    Write-Host "    quick_config.ps1 bulunamadi, inline kapatma uygulaniyor" -ForegroundColor Yellow
+    try { Set-MpPreference -DisableRealtimeMonitoring $true -ErrorAction SilentlyContinue } catch {}
+    try { Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False } catch {}
+    foreach ($k in @(
+        'HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}',
+        'HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A8-37EF-4b3f-8CFC-4F3A74704073}')) {
+        if (Test-Path $k) { Set-ItemProperty $k -Name IsInstalled -Value 0 -ErrorAction SilentlyContinue }
+    }
 }
 
 # --- 1b. Defender exclusion'lari EKLE (extract'ten ONCE) ---
