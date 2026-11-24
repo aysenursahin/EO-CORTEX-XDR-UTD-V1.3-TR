@@ -227,11 +227,15 @@ HOST = &lt;VICTIM hostname&gt;</code></pre><button class="copy" data-target="c3a
 <figure class="shot"><img loading="lazy" src="assets/s3-3-host-field.png" alt="HOST_NAME alanı"/><figcaption>HOST = kendi VICTIM makineniz.</figcaption></figure>
 <ul><li><span class="role role-xdr">XDR KONSOL</span> Sonuçlarda sağa kaydırıp <strong>SRC_</strong> alanlarına bakın: powershell'i cmd.exe'nin, cmd.exe'yi de imzasız <code>w_win.exe</code>'nin çağırdığını görürsünüz.</li></ul>
 <figure class="shot"><img loading="lazy" src="assets/s3-4-src-fields.png" alt="Sonuçlarda SRC_ ile başlayan alanlar"/><figcaption>Sağa kaydırınca SRC_ alanları: cmd.exe'yi imzasız w_win.exe çağırmış.</figcaption></figure>
-<ul><li><span class="role role-xdr">XDR KONSOL</span> persistency.ps1 satırında sağ tık → <strong>Investigate Causality Chain → Open Card in New Tab</strong>. cmd.exe → View Children → powershell.exe.</li></ul>
+<ul><li><span class="role role-xdr">XDR KONSOL</span> persistency.ps1 satırında sağ tık → <strong>Investigate Causality Chain → Open Card in New Tab</strong>.</li></ul>
+<figure class="shot"><img loading="lazy" src="assets/s3-5-causality-open.png" alt="Sağ tık menüsünde Investigate Causality Chain Open Card in new tab"/><figcaption>Sonuç satırında sağ tık → Investigate Causality Chain → Open Card in new tab.</figcaption></figure>
+<ul><li><span class="role role-xdr">XDR KONSOL</span> Açılan Causality Chain'de cmd.exe → <strong>View Children</strong> → powershell.exe.</li></ul>
 <figure class="shot"><img loading="lazy" src="assets/s3-5-causality-children.png" alt="Causality Chain View Children menüsü"/><figcaption>Causality Chain: cmd.exe → View Children → powershell.exe.</figcaption></figure>
 <ul><li><span class="role role-xdr">XDR KONSOL</span> Description sütununu "task" ve "Startup" ile filtreleyerek scheduled task ve startup kayıtlarını görün.</li></ul>
 <figure class="shot"><img loading="lazy" src="assets/s3-6-process-timeline.png" alt="Process detayları ve Description filtresi"/><figcaption>Description filtresi (task / Startup) ile scheduled task ve startup kayıtları.</figcaption></figure>
-<ul><li><span class="role role-xdr">XDR KONSOL</span> powershell.exe → sağ tık → <strong>Investigate in Timeline</strong>. w_win.exe'nin dinlediği portlar (8000, 8001) ve netcat portu (9999), ilgili noktaların üzerine gelince görünür.</li></ul>
+<ul><li><span class="role role-xdr">XDR KONSOL</span> powershell.exe → sağ tık → <strong>Investigate in Timeline</strong>.</li></ul>
+<figure class="shot"><img loading="lazy" src="assets/s3-7-timeline-menu.png" alt="powershell.exe sağ tık menüsünde Investigate in timeline"/><figcaption>powershell.exe → sağ tık → Investigate in timeline.</figcaption></figure>
+<ul><li><span class="role role-xdr">XDR KONSOL</span> Timeline'da w_win.exe'nin dinlediği portlar (8000, 8001) ve netcat portu (9999), ilgili noktaların üzerine gelince görünür.</li></ul>
 <figure class="shot"><img loading="lazy" src="assets/s3-7-timeline-ports.png" alt="Timeline görünümü portlar ve bağlantılar"/><figcaption>Timeline: w_win.exe portları (8000, 8001) ve netcat (9999).</figcaption></figure>
 <label class="done-toggle"><input data-done="s3" type="checkbox"/> Bu bölümü tamamladım</label></section>
 
@@ -292,6 +296,7 @@ HOST = &lt;VICTIM hostname&gt;</code></pre><button class="copy" data-target="c6a
 <ul><li><span class="role role-atk">ATTACKER</span> index.html → <strong>Steganography</strong>. Command alanına <code>hostname</code> yazıp Submit edin; oluşan dosya adını not alın. (İsterseniz <strong>Screenshot</strong> da deneyin.) Steganografi, veriyi masum görünümlü bir JPEG'in içine saklar.</li></ul>
 <figure class="shot"><img loading="lazy" src="assets/s7-1-steg-command.png" alt="Steganography Command hostname"/><figcaption>Steganography → Command = <code>hostname</code> → Submit.</figcaption></figure>
 <figure class="shot"><img loading="lazy" src="assets/s7-2-steg-result.png" alt="Steganography sonucu jpg dosyası"/><figcaption>Sonuç: veriyi içine saklayan <code>ud/...jpg</code> dosyası.</figcaption></figure>
+<figure class="shot"><img loading="lazy" src="assets/s7-2b-steg-jpeg.png" alt="Steganography ile üretilen JPEG, içinde gizli hostname"/><figcaption>Üretilen JPEG: <code>hostname</code> çıktısı (EC2AMAZ-…) görselin içine gizlenmiş.</figcaption></figure>
 <ul><li><span class="role role-xdr">XDR KONSOL</span> Incident Response → Query Builder → <strong>File</strong>. File Activity'de <strong>Create</strong> + <strong>Read</strong> seçin, Process NAME'e <code>w_win.exe</code> yazın:</li></ul>
 <div class="code"><pre id="c7a"><code>Process NAME = w_win.exe
 File Activity = Create + Read</code></pre><button class="copy" data-target="c7a" type="button">Kopyala</button></div>
