@@ -92,7 +92,8 @@ Write-Host "    7-Zip: $sevenZip"
 
 function Expand-Protected {
     param([string]$Zip, [string]$Dest, [string]$Password)
-    New-Item -ItemType Directory -Force -Path $Dest | Out-Null
+    # Surucu koku ("C:\") zaten var; New-Item onu olusturamaz, o yuzden sadece yoksa olustur
+    if (-not (Test-Path $Dest)) { New-Item -ItemType Directory -Force -Path $Dest | Out-Null }
     & $sevenZip x "$Zip" "-o$Dest" "-p$Password" -aoa -y | Out-Null
     if ($LASTEXITCODE -ne 0) { throw "Extract basarisiz ($Zip -> $Dest), 7-Zip kodu $LASTEXITCODE. Parolayi kontrol edin." }
 }
