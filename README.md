@@ -53,72 +53,96 @@ Attacker'ın `Client1.exe <IP> localhost` için kullandığı IP **private IP**'
 
 ---
 
-## 1. Base makineyi oluştur (AWS konsolu)
+## Kurulum (adım adım, CloudShell)
 
-EC2 → **Launch instance**: Windows Server 2022 Base, `t3.large`, 60 GiB gp3, public IP enable, RDP kuralı **My IP**, IAM instance profile `UtdWorkshopSSMProfile` (yoksa önce `aws/00-create-ssm-role.ps1`). Katılımcı hesabını açın (`aes-user`, admin) ve bu kullanıcıyla bağlanın.
+Her şey **eu-north-1**'de olmalı (CloudShell, base makine, AMI aynı bölgede). CloudShell'de `pwsh` ve `aws` CLI hazır gelir.
 
-## 2. Base makineyi hazırla (`aes-user`, yönetici PowerShell)
+### 0. Repoyu klonla
 
-Repoyu indirin, `scripts/` altına **utd.zip** ve **x_test.zip**'i, `scripts/wallpapers/` altına arkaplanları koyun, sonra:
+```bash
+cd ~
+git clone https://github.com/aysenursahin/EO-CORTEX-XDR-UTD-V1.3-TR.git
+cd EO-CORTEX-XDR-UTD-V1.3-TR/aws
+cp config.example.ps1 config.ps1
+cp agent-install-command.example.ps1 agent-install-command.ps1
+```
+
+`config.ps1`'de `Region` zaten `eu-north-1`. `SubnetId`/`SecurityGroupId`/`BaseInstanceId`'yi base makineyi açınca dolduracağız.
+
+### 1. SSM rolünü oluştur (makine AÇMADAN önce)
+
+```bash
+pwsh ./00-create-ssm-role.ps1
+```
+
+Sadece IAM instance profile (`UtdWorkshopSSMProfile`) oluşturur. Base makineyi bu profille açacağız.
+
+### 2. Base makineyi aç (AWS Console → EC2 → Launch instance)
+
+Windows Server 2022 Base · `t3.large` · 60 GiB gp3 · public IP enable · RDP (3389) **My IP** · IAM instance profile **`UtdWorkshopSSMProfile`**. Instance ID'yi (`i-xxxxxxxx`) `config.ps1`'e yaz (`BaseInstanceId`, `SubnetId`, `SecurityGroupId`).
+
+### 3. Base'e bağlan, `aes-user` oluştur
+
+RDP (Administrator) → `net user aes-user Password123! /add` + `net localgroup administrators aes-user /add` → `aes-user` ile tekrar bağlan. (`aes-user` = `config.ps1`'deki `$WorkshopUser`.)
+
+### 4. Base'e dosyaları koy
+
+GitHub → **Code → Download ZIP**. `x_test.zip`'i `scripts\` altına, wallpaper'ları `scripts\wallpapers\` altına koy. (`utd.zip`'i stage script torsque'tan kendi indirir.)
+
+### 5. Base'i hazırla (`aes-user`, yönetici PowerShell)
 
 ```powershell
+cd <repo>\scripts
 Set-ExecutionPolicy Bypass -Scope Process -Force
-.\scripts\utd-stage.ps1 -WorkshopUser aes-user
+.\utd-stage.ps1 -WorkshopUser aes-user
 ```
 
-Script sonunda kontrol listesinde tüm satırlar `True` olmalı. **XDR agent'ı base makineye kurmayın.**
+Kontrol listesinde satırlar `True` olmalı. **XDR agent'ı base makineye KURMAYIN.**
 
-## 3. AWS ayarlarını yap (base makinede DEĞİL)
+### 6. AMI al (CloudShell)
 
-```powershell
-cp aws/config.example.ps1 aws/config.ps1
-cp aws/agent-install-command.example.ps1 aws/agent-install-command.ps1
-# config.ps1'i doldurun (BaseInstanceId, SubnetId, SecurityGroupId, PairCount...)
-# agent-install-command.ps1'e XDR konsolundaki msiexec komutunu yapıştırın
-# aws/installers/ altına UTD_XDR_AGENT__x64.msi koyun
-./00-create-ssm-role.ps1
+```bash
+pwsh ./01-create-ami.ps1       # base'i kontrol eder, agent kuruluysa durur; 'evet' ile onayla
 ```
 
-## 4. AMI al
+### 7. Çiftleri aç, hazırla, eşleştir
 
-```powershell
-./01-create-ami.ps1
+MSI'yi CloudShell'e yükle (**Actions → Upload file**), yerine taşı, sonra:
+
+```bash
+mkdir -p installers && mv ~/UTD_XDR_AGENT__x64.msi installers/
+# agent-install-command.ps1'e XDR konsolundaki msiexec komutunu yapıştır
+pwsh ./02-launch-instances.ps1     # UTD-VICTIM01 / UTD-ATTACKER01 ...
+pwsh ./03-rename-hosts.ps1         # hostname + role wallpaper
+pwsh ./04-install-agent.ps1        # agent SADECE victim'lara (S3 üzerinden)
+pwsh ./05-pair-victim-ip.ps1       # victim IP -> attacker masaüstü
 ```
 
-## 5. Çiftleri aç, hazırla, eşleştir
+Önce `config.ps1`'de `$PairCount = 1` ile pilot yap; sorunsuzsa artırıp 02–05'i tekrar çalıştır (var olan makineler atlanır).
 
-```powershell
-./02-launch-instances.ps1     # VICTIM01/ATTACKER01, ...
-./03-rename-hosts.ps1         # hostname + role göre wallpaper
-./04-install-agent.ps1        # agent SADECE victim'lara
-./05-pair-victim-ip.ps1       # victim IP -> attacker masaüstü
-```
+### 8. Kontrol ve liste
 
-Önce `PairCount=1` ile pilot yapın; sorunsuzsa sayıyı artırıp 02–05'i tekrar çalıştırın (var olan makineler atlanır).
-
-## 6. Kontrol ve liste
-
-```powershell
-./06-check.ps1
-./07-list-instances.ps1
+```bash
+pwsh ./06-check.ps1
+pwsh ./07-list-instances.ps1       # participants.csv (RDP adresleri)
 ```
 
 ## Workshop günü
 
-```powershell
-./08-power.ps1 -Action Start
-./07-list-instances.ps1       # RDP (public) IP'leri yenile
-./05-pair-victim-ip.ps1       # garanti (private IP değişmez ama idempotent)
-./06-check.ps1
+```bash
+pwsh ./08-power.ps1 -Action Start
+pwsh ./07-list-instances.ps1       # public (RDP) IP'leri yenile
+pwsh ./05-pair-victim-ip.ps1       # garanti (private IP değişmez)
+pwsh ./06-check.ps1
 ```
 
 ## Workshop sonrası
 
-```powershell
-./99-cleanup.ps1              # makineleri siler
-./99-cleanup.ps1 -DeleteAmi   # AMI + snapshot'ları da siler
+```bash
+pwsh ./99-cleanup.ps1              # makineleri siler
+pwsh ./99-cleanup.ps1 -DeleteAmi   # AMI + snapshot'ları da siler
 ```
 
 ## Bu repoda olmayanlar
 
-Repo public'tir. `aws/config.ps1`, `aws/agent-install-command.ps1`, `aws/participants.csv`, `installers/*.msi` ve lab zip'leri (`utd.zip`, `x_test.zip`) yereldir ve `.gitignore` ile dışarıda tutulur.
+Repo public'tir. `aws/config.ps1`, `aws/agent-install-command.ps1`, `aws/participants.csv`, `aws/installers/*.msi` ve lab zip'leri (`utd.zip`, `x_test.zip`) yereldir ve `.gitignore` ile dışarıda tutulur.
