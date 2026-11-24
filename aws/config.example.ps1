@@ -27,7 +27,7 @@ $InstanceType    = "t3.large"
 $SubnetId        = "subnet-xxxxxxxx"   # Internete cikisi olan public subnet
 $SecurityGroupId = "sg-xxxxxxxx"       # RDP (3389) sadece workshop salonunun IP'sinden
 $VolumeSizeGiB   = 60                  # Disk boyutu (GiB). AMI'deki diskten buyukse klonlarda buyutulur
-$KeyName         = ""                  # Opsiyonel; aes-user AMI'den geldigi icin sart degil
+$KeyName         = ""                  # Opsiyonel; xdr-user AMI'den geldigi icin sart degil
 
 # Base makine ve AMI
 $BaseInstanceId = "i-xxxxxxxx"            # utd-stage.ps1'in calistigi base makine
@@ -39,7 +39,7 @@ $RoleName        = "UtdWorkshopSSMRole"
 $InstanceProfile = "UtdWorkshopSSMProfile"
 
 # Katilimcilarin RDP ile baglandigi Windows kullanicisi
-$WorkshopUser = "aes-user"
+$WorkshopUser = "xdr-user"
 
 # Cortex XDR agent servisinin Windows'taki goruntu adi (Get-Service DisplayName).
 # Ilk victim makinesinde agent'i kurduktan sonra kontrol edip gerekirse duzeltin.

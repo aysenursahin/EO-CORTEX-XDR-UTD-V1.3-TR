@@ -81,20 +81,20 @@ Sadece IAM instance profile (`UtdWorkshopSSMProfile`) oluşturur. Base makineyi 
 
 Windows Server 2022 Base · `t3.large` · 60 GiB gp3 · public IP enable · RDP (3389) **My IP** · IAM instance profile **`UtdWorkshopSSMProfile`**. Instance ID'yi (`i-xxxxxxxx`) `config.ps1`'e yaz (`BaseInstanceId`, `SubnetId`, `SecurityGroupId`).
 
-### 3. Base'e bağlan, `aes-user` oluştur
+### 3. Base'e bağlan, `xdr-user` oluştur
 
-RDP (Administrator) → `net user aes-user Password123! /add` + `net localgroup administrators aes-user /add` → `aes-user` ile tekrar bağlan. (`aes-user` = `config.ps1`'deki `$WorkshopUser`.)
+RDP (Administrator) → `net user xdr-user Password123! /add` + `net localgroup administrators xdr-user /add` → `xdr-user` ile tekrar bağlan. (`xdr-user` = `config.ps1`'deki `$WorkshopUser`.)
 
 ### 4. Base'e dosyaları koy
 
 GitHub → **Code → Download ZIP**. `x_test.zip`'i `scripts\` altına, wallpaper'ları `scripts\wallpapers\` altına koy. (`utd.zip`'i stage script torsque'tan kendi indirir.)
 
-### 5. Base'i hazırla (`aes-user`, yönetici PowerShell)
+### 5. Base'i hazırla (`xdr-user`, yönetici PowerShell)
 
 ```powershell
 cd <repo>\scripts
 Set-ExecutionPolicy Bypass -Scope Process -Force
-.\utd-stage.ps1 -WorkshopUser aes-user
+.\utd-stage.ps1 -WorkshopUser xdr-user
 ```
 
 Kontrol listesinde satırlar `True` olmalı. **XDR agent'ı base makineye KURMAYIN.**

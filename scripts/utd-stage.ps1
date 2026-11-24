@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------------
 # utd-stage.ps1 - Base makineyi UTD lab'i icin hazirlar (AMI almadan ONCE)
 #
-# Bu script BASE makinede, $WorkshopUser (aes-user) ile acilmis YONETICI
+# Bu script BASE makinede, $WorkshopUser (xdr-user) ile acilmis YONETICI
 # PowerShell'de calisir. Yaptigi her sey AMI ile tum katilimci makinelerine
 # kopyalanir. Amac: katilimcinin zip indirme/parola/extract adimlarini ve
 # "foo" parolasini tamamen ortadan kaldirmak.
@@ -20,10 +20,10 @@
 #
 # Kullanim (base makinede, yonetici PowerShell):
 #   Set-ExecutionPolicy Bypass -Scope Process -Force
-#   .\utd-stage.ps1 -WorkshopUser aes-user
+#   .\utd-stage.ps1 -WorkshopUser xdr-user
 # ---------------------------------------------------------------------------
 param(
-    [string]$WorkshopUser = "aes-user",
+    [string]$WorkshopUser = "xdr-user",
     [string]$UtdZip       = "",   # bos ise bu klasorde utd.zip aranir, yoksa UtdZipUrl'den indirilir
     [string]$UtdZipUrl    = "http://www.torsque.com/utd.zip",
     [string]$XTestZip     = "",   # bos ise bu klasorde x_test.zip aranir
