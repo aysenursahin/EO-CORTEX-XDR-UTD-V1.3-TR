@@ -28,7 +28,7 @@ $cmdLine = @($installCmd -split "`r?`n" | Where-Object { $_.Trim() -and -not $_.
 if (-not $cmdLine) { throw "agent-install-command.ps1 icinde calistirilacak bir komut yok." }
 
 # ----- MSI'yi private S3 bucket'a yukle, presign linki olustur -----
-$msiLocal = Join-Path $PSScriptRoot "installers\UTD_XDR_AGENT__x64.msi"
+$msiLocal = Join-Path (Join-Path $PSScriptRoot "installers") "UTD_XDR_AGENT__x64.msi"
 if (-not (Test-Path $msiLocal)) {
     throw "aws\installers\UTD_XDR_AGENT__x64.msi bulunamadi. XDR konsolundan indirip bu klasore koyun."
 }
