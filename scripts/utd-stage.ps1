@@ -74,13 +74,19 @@ foreach ($p in @("C:\x_test", $stageDir)) {
     try { Add-MpPreference -ExclusionPath $p -ErrorAction SilentlyContinue } catch {}
 }
 
-# --- 2. 7-Zip bul (parolali zip icin gerekli; Expand-Archive parola desteklemez) ---
-$sevenZip = Resolve-Local $null @("C:\Program Files\7-Zip\7z.exe", "C:\Program Files (x86)\7-Zip\7z.exe", "$stageDir\7zr.exe")
+# --- 2. 7-Zip bul (parolali ZIP icin tam 7-Zip gerekir) ---
+# NOT: 7zr.exe sadece .7z acar, .zip ACAMAZ. utd.zip/x_test.zip birer ZIP oldugu
+# icin tam 7-Zip (7z.exe) kuruyoruz; bulunmazsa sessiz kurulumla indiriyoruz.
+$sevenZip = Resolve-Local $null @("C:\Program Files\7-Zip\7z.exe", "C:\Program Files (x86)\7-Zip\7z.exe")
 if (-not $sevenZip) {
-    Write-Host "==> 7-Zip bulunamadi, 7zr.exe indiriliyor" -ForegroundColor Cyan
-    $sevenZip = "$stageDir\7zr.exe"
-    try { Invoke-WebRequest -Uri "https://www.7-zip.org/a/7zr.exe" -OutFile $sevenZip -UseBasicParsing }
-    catch { throw "7-Zip bulunamadi ve indirilemedi. 7-Zip'i elle kurup -SevenZip ile yolunu verin. ($($_.Exception.Message))" }
+    Write-Host "==> Tam 7-Zip bulunamadi, kuruluyor (sessiz)" -ForegroundColor Cyan
+    $setup = "$stageDir\7z-setup.exe"
+    try {
+        Invoke-WebRequest -Uri "https://www.7-zip.org/a/7z2408-x64.exe" -OutFile $setup -UseBasicParsing
+        Start-Process -FilePath $setup -ArgumentList "/S" -Wait
+    } catch { throw "7-Zip indirilemedi/kurulamadi. 7-Zip'i elle kurup -SevenZip ile yolunu verin. ($($_.Exception.Message))" }
+    $sevenZip = Resolve-Local $null @("C:\Program Files\7-Zip\7z.exe", "C:\Program Files (x86)\7-Zip\7z.exe")
+    if (-not $sevenZip) { throw "7-Zip kuruldu ama 7z.exe bulunamadi. -SevenZip ile yolunu verin." }
 }
 Write-Host "    7-Zip: $sevenZip"
 
