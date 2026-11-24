@@ -31,7 +31,7 @@ param(
     [string]$WallpaperDir = "",   # bos ise bu klasordeki wallpapers\ kullanilir
     [string]$KomutlarFile = "",   # bos ise bu klasorde / ust klasorde komutlar.txt aranir
     [string]$ConsoleUrl   = "https://torsque.xdr.de.paloaltonetworks.com/dashboard",
-    [string]$GuideUrl     = "https://torsque.xdr.de.paloaltonetworks.com/dashboard"
+    [string]$GuideUrl     = "https://eo-utd-workshop.onrender.com/"
 )
 $ErrorActionPreference = "Stop"
 $ProgressPreference    = "SilentlyContinue"

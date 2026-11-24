@@ -51,7 +51,7 @@ $XdrServicePattern = "*Cortex*"
 $AgentMsiBucket = ""
 
 # Lab rehberinin web adresi (masaustune kisayol + tarayici favorisi)
-$LabGuideUrl = "https://torsque.xdr.de.paloaltonetworks.com/dashboard"
+$LabGuideUrl = "https://eo-utd-workshop.onrender.com/"
 
 # XDR konsol adresi (eslesen her makineye tarayici favorisi + masaustu kisayolu)
 $XdrConsoleUrl = "https://torsque.xdr.de.paloaltonetworks.com/dashboard"
