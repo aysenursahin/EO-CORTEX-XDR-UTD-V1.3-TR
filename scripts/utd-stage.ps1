@@ -120,14 +120,20 @@ New-Item -ItemType Directory -Force -Path "C:\x_test\server\ud" | Out-Null
 Write-Host "==> C:\x_test\server\ud olusturuldu"
 
 # --- 5. Wallpaper'lari AMI'ye tasinan yere kopyala (03-rename role gore ayarlar) ---
+# Kaynak sirasi: once repo scripts\wallpapers, yoksa utd.zip extraction icinden bul.
 $wpSrc = if ($WallpaperDir) { $WallpaperDir } else { "$here\wallpapers" }
 $wpDst = "$stageDir\wallpapers"
 New-Item -ItemType Directory -Force -Path $wpDst | Out-Null
 $map = @{ "victim-backgroud.png" = "victim.png"; "attacker-backgroud.png" = "attacker.png" }
 foreach ($k in $map.Keys) {
     $s = Join-Path $wpSrc $k
+    if (-not (Test-Path $s)) {
+        # utd.zip icinden ara (victim/attacker arka planlari genelde orada gelir)
+        $found = Get-ChildItem -Path "$stageDir\utd" -Recurse -Filter $k -ErrorAction SilentlyContinue | Select-Object -First 1
+        if ($found) { $s = $found.FullName }
+    }
     if (Test-Path $s) { Copy-Item $s (Join-Path $wpDst $map[$k]) -Force; Write-Host "    wallpaper: $($map[$k])" }
-    else { Write-Host "    UYARI: $k bulunamadi ($wpSrc) - wallpaper atlandi" -ForegroundColor Yellow }
+    else { Write-Host "    UYARI: $k bulunamadi (repo veya utd.zip) - wallpaper atlandi" -ForegroundColor Yellow }
 }
 
 # --- 6. Masaustu: komutlar.txt, konsol kisayolu, lab rehberi kisayolu ---
