@@ -16,6 +16,7 @@
 # agent-install-command.ps1 .gitignore'da; GitHub'a yuklenmez.
 # ---------------------------------------------------------------------------
 
-# <XDR Deployment / Agent Installation ekranindaki komutu buraya yapistirin>
-# Ornek:
-# msiexec /i UTD_XDR_AGENT__x64.msi
+# UTD agent paketinde dagitim kimligi MSI'nin icinde geldigi icin varsayilan
+# komut asagidadir ve HAZIR birakilmistir. Ortaminiz farkli bir komut veriyorsa
+# (ozel parametreler), bu satiri konsoldaki komutla degistirin.
+msiexec /i UTD_XDR_AGENT__x64.msi
