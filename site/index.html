@@ -132,7 +132,7 @@ footer b { color: var(--green-dk); }
 <li><a data-sec="s3" href="#s3">3. Threat Hunting: cmd → powershell<span class="done-mark">✓</span></a></li>
 <li><a data-sec="s4" href="#s4">4. Credential Persistence (BIOC)<span class="done-mark">✓</span></a></li>
 <li><a data-sec="s5" href="#s5">5. Malware: WildFire &amp; Local Analysis<span class="done-mark">✓</span></a></li>
-<li><a data-sec="s6" href="#s6">6. Network Source Avı<span class="done-mark">✓</span></a></li>
+<li><a data-sec="s6" href="#s6">6. Network Source Tespiti<span class="done-mark">✓</span></a></li>
 <li><a data-sec="s7" href="#s7">7. Data Exfiltration<span class="done-mark">✓</span></a></li>
 </ol>
 <div class="progress"><span id="progText">0 / 9 bölüm tamamlandı</span><div class="bar"><span id="progBar"></span></div></div>
@@ -145,17 +145,17 @@ footer b { color: var(--green-dk); }
 <main>
 <header class="hero">
 <h1>Cortex XDR<br/>Threat Hunting Workshop</h1>
-<p>Saldırıyı ATTACKER makinesinden siz çalıştırır, bıraktığı izleri VICTIM üzerinde Cortex XDR ile avlarsınız. Backdoor, reverse shell, persistence, malware ve data exfiltration adımlarının her birini önce yapıp sonra tespit edeceksiniz.</p>
+<p>Saldırıyı ATTACKER makinesinden siz çalıştırır, bıraktığı izleri VICTIM üzerinde Cortex XDR ile tespit edersiniz. Backdoor, reverse shell, persistence, malware ve data exfiltration adımlarının her birini önce yapıp sonra tespit edeceksiniz.</p>
 </header>
 
 <section class="sec" id="hakkinda"><h2 class="sec-title">Workshop Hakkında</h2>
-<p>Lab'da iki makineniz var: saldırıyı çalıştırdığınız <strong>ATTACKER</strong> ve hedef <strong>VICTIM</strong>. Cortex XDR agent yalnızca VICTIM'da çalışır; saldırının VICTIM'da bıraktığı aktiviteyi konsoldan avlarsınız. Makineler hazır geliyor: <code>C:\x_test</code> açılmış, araçlar yerinde ve ATTACKER masaüstünde kendi VICTIM'ınızın IP'si hazır.</p>
+<p>Lab'da iki makineniz var: saldırıyı çalıştırdığınız <strong>ATTACKER</strong> ve hedef <strong>VICTIM</strong>. Cortex XDR agent yalnızca VICTIM'da çalışır; saldırının VICTIM'da bıraktığı aktiviteyi konsoldan takip edip tespit edersiniz. Makineler hazır geliyor: <code>C:\x_test</code> açılmış, araçlar yerinde ve ATTACKER masaüstünde kendi VICTIM'ınızın IP'si hazır.</p>
 <div class="table-wrap"><table><caption>Roller</caption>
 <thead><tr><th>Yer</th><th>Ne yapar</th></tr></thead>
 <tbody>
 <tr><td><span class="role role-atk">ATTACKER</span></td><td>Saldırı araçlarını çalıştırır (Client1.exe, nc, index.html portal)</td></tr>
 <tr><td><span class="role role-vic">VICTIM</span></td><td>Hedef makine; XDR agent burada çalışır, backdoor burada dinler</td></tr>
-<tr><td><span class="role role-xdr">XDR KONSOL</span></td><td>Query Builder, BIOC, Causality Chain, Timeline ile avlama</td></tr>
+<tr><td><span class="role role-xdr">XDR KONSOL</span></td><td>Query Builder, BIOC, Causality Chain, Timeline ile tespit ve analiz</td></tr>
 </tbody></table></div>
 <p class="note"><span class="note-tag">Not</span>ATTACKER masaüstündeki <strong>VICTIM-BILGISI.txt</strong> dosyasında kendi VICTIM makinenizin hostname'i, IP'si ve hazır <code>Client1.exe</code> komutu var. IP aramayla uğraşmayın, oradan kopyalayın.</p>
 <label class="done-toggle"><input data-done="hakkinda" type="checkbox"/> Bu bölümü tamamladım</label></section>
@@ -277,8 +277,8 @@ HOST = &lt;VICTIM hostname&gt;</code></pre><button class="copy" data-target="c4a
 <figure class="shot"><img loading="lazy" src="assets/s5-6-local-analysis.png" alt="EVENTS sekmesinde Local Analysis"/><figcaption>EVENTS: bu kez <strong>Local Analysis</strong> modülü ile yakalandı.</figcaption></figure>
 <label class="done-toggle"><input data-done="s5" type="checkbox"/> Bu bölümü tamamladım</label></section>
 
-<section class="sec" id="s6"><h2 class="sec-title">6. Network Source Avı</h2>
-<p>malware1.exe'nin nereden indiğini bulacaksınız. Bir dosya makineye ilk ulaştığında dosya sisteminde bir <strong>create</strong> işlemi olur; avı oradan başlatırsınız.</p>
+<section class="sec" id="s6"><h2 class="sec-title">6. Network Source Tespiti</h2>
+<p>malware1.exe'nin nereden indiğini bulacaksınız. Bir dosya makineye ilk ulaştığında dosya sisteminde bir <strong>create</strong> işlemi olur; tespiti oradan başlatırsınız.</p>
 <ul>
 <li><span class="role role-xdr">XDR KONSOL</span> Incident → Query Builder → <strong>File</strong>, üstten yalnızca <strong>Create</strong> seçin:</li>
 </ul>
@@ -292,7 +292,7 @@ HOST = &lt;VICTIM hostname&gt;</code></pre><button class="copy" data-target="c6a
 <label class="done-toggle"><input data-done="s6" type="checkbox"/> Bu bölümü tamamladım</label></section>
 
 <section class="sec" id="s7"><h2 class="sec-title">7. Data Exfiltration</h2>
-<p>Cortex XDR, dosya tipinden bağımsız olarak davranışı kaydeder — JPEG ya da uzantısız dosyalar dahil. Burada w_win.exe'nin okuduğu ve oluşturduğu dosyaları avlarsınız.</p>
+<p>Cortex XDR, dosya tipinden bağımsız olarak davranışı kaydeder — JPEG ya da uzantısız dosyalar dahil. Burada w_win.exe'nin okuduğu ve oluşturduğu dosyaları ortaya çıkarırsınız.</p>
 <ul><li><span class="role role-atk">ATTACKER</span> index.html → <strong>Steganography</strong>. Command alanına <code>hostname</code> yazıp Submit edin; oluşan dosya adını not alın. (İsterseniz <strong>Screenshot</strong> da deneyin.) Steganografi, veriyi masum görünümlü bir JPEG'in içine saklar.</li></ul>
 <figure class="shot"><img loading="lazy" src="assets/s7-1-steg-command.png" alt="Steganography Command hostname"/><figcaption>Steganography → Command = <code>hostname</code> → Submit.</figcaption></figure>
 <figure class="shot"><img loading="lazy" src="assets/s7-2-steg-result.png" alt="Steganography sonucu jpg dosyası"/><figcaption>Sonuç: veriyi içine saklayan <code>ud/...jpg</code> dosyası.</figcaption></figure>
