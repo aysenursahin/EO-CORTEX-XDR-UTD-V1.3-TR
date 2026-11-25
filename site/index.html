@@ -169,9 +169,10 @@ footer b { color: var(--green-dk); }
 </ul>
 <div class="code"><pre id="c0a"><code>Get-Service | Where-Object { $_.DisplayName -like "*Cortex*" }</code></pre><button class="copy" data-target="c0a" type="button">Kopyala</button></div>
 <figure class="shot"><img loading="lazy" src="assets/s0-1-agent-green.png" alt="Cortex XDR agent taskbar ikonu yeşil"/><figcaption>VICTIM'da Cortex XDR agent çalışıyor (taskbar ikonu yeşil).</figcaption></figure>
-<ul><li><span class="role role-xdr">XDR KONSOL</span> Endpoints → All Endpoints'te kendi VICTIM makinenizi hostname'iyle bulun ve üzerinde <strong>UTD</strong> tag'inin atandığını doğrulayın.</li></ul>
+<ul><li><span class="role role-xdr">XDR KONSOL</span> Endpoints → All Endpoints'te kendi VICTIM makinenizi hostname'iyle bulun → sağ tık → <strong>Endpoint Control → Assign Endpoint Tags</strong> → <strong>UTD</strong> tag'ini seçip <strong>Save</strong> (Add selected tags to Users or Groups kutusunu işaretlemeyin).</li></ul>
 <figure class="shot"><img loading="lazy" src="assets/s0-2-assign-tags-menu.png" alt="Endpoint Control Assign Endpoint Tags menüsü"/><figcaption>Endpoints → All Endpoints → sağ tık → Endpoint Control → Assign Endpoint Tags.</figcaption></figure>
 <figure class="shot"><img loading="lazy" src="assets/s0-3-assign-tags-save.png" alt="Assign Tags penceresinde UTD tag'i"/><figcaption>UTD tag'ini seçip Save (Users/Groups kutusunu işaretlemeden).</figcaption></figure>
+<ul><li><span class="role role-vic">VICTIM</span> Policy'nin hızlı uygulanması için taskbar'daki Cortex XDR agent simgesine çift tıklayıp alttan <strong>check-in now</strong>'a basın. (Alternatif: konsolda endpoint'e sağ tık → Endpoint Control → Perform Heartbeat.)</li></ul>
 <div class="callout"><span class="callout-tag">Beklenen sonuç</span><p>İki makineye de bağlısınız, VICTIM'da agent çalışıyor ve konsolda kendi makinenizi görüyorsunuz.</p></div>
 <label class="done-toggle"><input data-done="s0" type="checkbox"/> Bu bölümü tamamladım</label></section>
 
@@ -183,6 +184,7 @@ w_win.exe</code></pre><button class="copy" data-target="c1a" type="button">Kopya
 <ul><li><span class="role role-vic">VICTIM</span> Portların dinlemede olduğunu doğrulayın (8000, 8001):</li></ul>
 <div class="code"><pre id="c1b"><code>netstat -nap tcp</code></pre><button class="copy" data-target="c1b" type="button">Kopyala</button></div>
 <figure class="shot"><img loading="lazy" src="assets/s1-1-netstat-listen.png" alt="netstat çıktısında 8000 ve 8001 portları LISTENING"/><figcaption><code>netstat -nap tcp</code>: 8000 ve 8001 portları LISTENING.</figcaption></figure>
+<ul><li><span class="role role-vic">VICTIM</span> Agent simgesine çift tıklayıp <strong>EVENTS</strong> sekmesinde w_win.exe'nin <strong>Hash Control</strong> ile yakalandığını görün (UTD için custom hash olarak eklenmiş).</li></ul>
 <figure class="shot"><img loading="lazy" src="assets/s1-2-event-hash.png" alt="Cortex XDR EVENTS sekmesinde w_win.exe Hash Control"/><figcaption>Agent → EVENTS: w_win.exe Hash Control ile yakalanıyor (UTD için hash olarak eklenmiş).</figcaption></figure>
 <ul><li><span class="role role-atk">ATTACKER</span> VICTIM'a bağlanın. <strong>IP için masaüstündeki VICTIM-BILGISI.txt</strong>'i kullanın:</li></ul>
 <div class="code"><pre id="c1c"><code>cd C:\x_test\client
@@ -293,7 +295,8 @@ HOST = &lt;VICTIM hostname&gt;</code></pre><button class="copy" data-target="c6a
 
 <section class="sec" id="s7"><h2 class="sec-title">7. Data Exfiltration</h2>
 <p>Cortex XDR, dosya tipinden bağımsız olarak davranışı kaydeder — JPEG ya da uzantısız dosyalar dahil. Burada w_win.exe'nin okuduğu ve oluşturduğu dosyaları ortaya çıkarırsınız.</p>
-<ul><li><span class="role role-atk">ATTACKER</span> index.html → <strong>Steganography</strong>. Command alanına <code>hostname</code> yazıp Submit edin; oluşan dosya adını not alın. (İsterseniz <strong>Screenshot</strong> da deneyin.) Steganografi, veriyi masum görünümlü bir JPEG'in içine saklar.</li></ul>
+<p class="note"><span class="note-tag">Bilgi</span>Magic Byte hakkında daha fazlası: <a href="https://medium.com/@d.harish008/what-is-a-magic-byte-and-how-to-exploit-1e286da1c198" target="_blank" rel="noopener">bu yazı</a>.</p>
+<ul><li><span class="role role-atk">ATTACKER</span> index.html → <strong>Steganography</strong>. Command alanına <code>hostname</code> yazıp Submit edin; oluşan dosya adını not alın. Steganografi, veriyi masum görünümlü bir JPEG'in içine saklar.</li></ul>
 <figure class="shot"><img loading="lazy" src="assets/s7-1-steg-command.png" alt="Steganography Command hostname"/><figcaption>Steganography → Command = <code>hostname</code> → Submit.</figcaption></figure>
 <figure class="shot"><img loading="lazy" src="assets/s7-2-steg-result.png" alt="Steganography sonucu jpg dosyası"/><figcaption>Sonuç: veriyi içine saklayan <code>ud/...jpg</code> dosyası.</figcaption></figure>
 <figure class="shot"><img loading="lazy" src="assets/s7-2b-steg-jpeg.png" alt="Steganography ile üretilen JPEG, içinde gizli hostname"/><figcaption>Üretilen JPEG: <code>hostname</code> çıktısı (EC2AMAZ-…) görselin içine gizlenmiş.</figcaption></figure>
