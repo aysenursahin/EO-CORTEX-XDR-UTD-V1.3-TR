@@ -126,6 +126,21 @@ if (-not (Test-Path "C:\x_test\client") -or -not (Test-Path "C:\x_test\server"))
 New-Item -ItemType Directory -Force -Path "C:\x_test\server\ud" | Out-Null
 Write-Host "==> C:\x_test\server\ud olusturuldu"
 
+# --- 4b. Upload payload'larini ATTACKER masaustune hazir koy (File-Upload icin) ---
+# downloader.ps1 / persistency.ps1 katilimci tarafindan portaldan yuklenir;
+# aramasin diye masaustunde UTD-payloads klasorune kopyalanir.
+$payloadDst = "C:\Users\$WorkshopUser\Desktop\UTD-payloads"
+New-Item -ItemType Directory -Force -Path $payloadDst | Out-Null
+foreach ($pf in @("downloader.ps1", "persistency.ps1")) {
+    $src = Resolve-Local $null @("$here\..\custom-utd\$pf", "$here\custom-utd\$pf")
+    if (-not $src) {
+        $found = Get-ChildItem -Path "$stageDir\utd", "C:\x_test" -Recurse -Filter $pf -ErrorAction SilentlyContinue | Select-Object -First 1
+        if ($found) { $src = $found.FullName }
+    }
+    if ($src) { Copy-Item $src (Join-Path $payloadDst $pf) -Force; Write-Host "    payload: $pf -> masaustu\UTD-payloads" }
+    else { Write-Host "    UYARI: $pf bulunamadi - masaustune konulamadi" -ForegroundColor Yellow }
+}
+
 # --- 5. Wallpaper'lari AMI'ye tasinan yere kopyala (03-rename role gore ayarlar) ---
 # Kaynak sirasi: once repo scripts\wallpapers, yoksa utd.zip extraction icinden bul.
 $wpSrc = if ($WallpaperDir) { $WallpaperDir } else { "$here\wallpapers" }
