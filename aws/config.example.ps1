@@ -15,10 +15,11 @@ $AwsProfile = ""   # CloudShell'de bos birakin; kendi PC'nizde profil adi (or. "
 $WorkshopTag = "eo-utd-workshop"
 
 # Katilimci makineleri CIFT acilir: her pair icin bir VICTIM + bir ATTACKER.
-# UTD-VICTIM01 / UTD-ATTACKER01, UTD-VICTIM02 / UTD-ATTACKER02, ...
-# (Windows hostname'i en fazla 15 karakter; UTD-ATTACKER01 = 14 karakter.)
-$VictimPrefix   = "UTD-VICTIM"
-$AttackerPrefix = "UTD-ATTACKER"
+# Bunlar Windows HOSTNAME onekleridir (hostname en fazla 15 karakter), kisa tutulur:
+#   UTD-VCTM01 / UTD-ATCK01, UTD-VCTM02 / UTD-ATCK02, ...
+# AWS Name tag'ine ayrica tarih eklenir (UTD-VCTM01-25Nov), hostname'e degil.
+$VictimPrefix   = "UTD-VCTM"
+$AttackerPrefix = "UTD-ATCK"
 $PairCount      = 10   # Kac katilimci/cift. Her pair 2 makine acar.
 $SparePairs     = 1    # Yedek cift sayisi
 
