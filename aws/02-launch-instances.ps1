@@ -51,14 +51,20 @@ if ($VolumeSizeGiB) {
 $existing   = @((Get-WorkshopInstances) | ForEach-Object { $_.Name })
 $totalPairs = $PairCount + $SparePairs
 $newIds     = @()
+# AWS Name tag'ine eklenen tarih son eki (or. "25Nov"). Ingilizce ay kisaltmasi icin invariant culture.
+$DateSuffix = (Get-Date).ToString("ddMMM", [Globalization.CultureInfo]::InvariantCulture)
 
 function New-Machine {
-    param([string]$Name, [string]$Role, [string]$Pair, [string]$Spare)
+    param([string]$HostName, [string]$Role, [string]$Pair, [string]$Spare)
+    # Windows hostname <=15 karakter; kisa kalir (UTD-VICTIM01). AWS Name tag'ine
+    # konsolda batch'i ayirt etmek icin tarih eklenir (UTD-VICTIM01-25Nov).
+    $Name = "$HostName-$DateSuffix"
     if ($existing -contains $Name) { Write-Host "  $Name zaten var, atlandi"; return }
 
     $tags = @(
         @{ ResourceType = "instance"; Tags = @(
             @{ Key = "Name";     Value = $Name },
+            @{ Key = "Host";     Value = $HostName },
             @{ Key = "Workshop"; Value = $WorkshopTag },
             @{ Key = "Role";     Value = $Role },
             @{ Key = "Pair";     Value = $Pair },
@@ -98,8 +104,8 @@ function New-Machine {
 for ($i = 1; $i -le $totalPairs; $i++) {
     $pair  = "{0:D2}" -f $i
     $spare = if ($i -gt $PairCount) { "true" } else { "false" }
-    New-Machine -Name ("{0}{1}" -f $VictimPrefix,   $pair) -Role "victim"   -Pair $pair -Spare $spare
-    New-Machine -Name ("{0}{1}" -f $AttackerPrefix, $pair) -Role "attacker" -Pair $pair -Spare $spare
+    New-Machine -HostName ("{0}{1}" -f $VictimPrefix,   $pair) -Role "victim"   -Pair $pair -Spare $spare
+    New-Machine -HostName ("{0}{1}" -f $AttackerPrefix, $pair) -Role "attacker" -Pair $pair -Spare $spare
 }
 
 if ($newIds.Count -gt 0) {

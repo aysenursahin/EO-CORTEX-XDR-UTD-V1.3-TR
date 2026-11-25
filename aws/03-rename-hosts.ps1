@@ -46,7 +46,7 @@ if (Test-Path `$img) {
     } catch { Write-Output "Wallpaper ayarlanamadi: `$(`$_.Exception.Message)" }
 }
 
-`$new = '$($inst.Name)'
+`$new = '$($inst.Host)'
 if (`$env:COMPUTERNAME -eq `$new) { Write-Output "Hostname: `$new"; exit 0 }
 Rename-Computer -NewName `$new -Force
 Write-Output "Hostname `$new olarak degistirildi, yeniden baslatiliyor"

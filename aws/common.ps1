@@ -83,8 +83,11 @@ function Get-WorkshopInstances {
     $list = foreach ($r in $res.Reservations) {
         foreach ($i in $r.Instances) {
             $nm = ($i.Tags | Where-Object { $_.Key -eq "Name" }).Value
+            $hn = ($i.Tags | Where-Object { $_.Key -eq "Host" }).Value
+            if (-not $hn) { $hn = $nm }   # eski makineler Host tag'siz olabilir
             [pscustomobject]@{
                 Name       = $nm
+                Host       = $hn
                 InstanceId = $i.InstanceId
                 State      = $i.State.Name
                 PublicIp   = $i.PublicIpAddress

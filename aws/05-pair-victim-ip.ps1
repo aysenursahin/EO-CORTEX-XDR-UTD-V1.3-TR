@@ -35,7 +35,7 @@ $plan = foreach ($a in $attackers) {
     [pscustomobject]@{
         Attacker   = $a.Name
         Pair       = $a.Pair
-        Victim     = if ($v) { $v.Name } else { "(EKSIK)" }
+        Victim     = if ($v) { $v.Host } else { "(EKSIK)" }
         VictimIp   = if ($v) { $v.PrivateIp } else { "" }
         InstanceId = $a.InstanceId
     }
