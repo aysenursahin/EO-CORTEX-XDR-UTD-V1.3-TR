@@ -11,6 +11,20 @@
 . "$PSScriptRoot\common.ps1"
 Assert-Configured @("SubnetId", "SecurityGroupId", "InstanceType", "InstanceProfile")
 
+# SG icinde instance'lar arasi trafik: lab'in backdoor (8000/8001), netcat (9999)
+# ve diger VICTIM<->ATTACKER iletisimi icin SG'nin kendi icinden tum trafige izin ver.
+# Idempotent: kural zaten varsa sessizce gecer.
+Write-Host "==> SG instance-arasi trafik kurali kontrol ediliyor ($SecurityGroupId)" -ForegroundColor Cyan
+$selfRule = New-JsonArgFile @(@{ IpProtocol = "-1"; UserIdGroupPairs = @(@{ GroupId = $SecurityGroupId }) })
+try {
+    Invoke-Aws @("ec2", "authorize-security-group-ingress", "--group-id", $SecurityGroupId, "--ip-permissions", $selfRule) | Out-Null
+    Write-Host "    SG self-trafik kurali eklendi (instance'lar birbiriyle konusabilir)" -ForegroundColor Green
+} catch {
+    if ($_.Exception.Message -like "*Duplicate*" -or $_.Exception.Message -like "*already exists*") {
+        Write-Host "    SG self-trafik kurali zaten var"
+    } else { throw }
+}
+
 # AMI: config'te yoksa en yeni workshop AMI'si
 if ($AmiId) {
     $latest = (Invoke-Aws @("ec2", "describe-images", "--image-ids", $AmiId)).Images | Select-Object -First 1

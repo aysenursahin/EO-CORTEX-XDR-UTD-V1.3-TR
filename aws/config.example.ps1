@@ -25,7 +25,7 @@ $SparePairs     = 1    # Yedek cift sayisi
 # Instance ayarlari
 $InstanceType    = "t3.large"
 $SubnetId        = "subnet-xxxxxxxx"   # Internete cikisi olan public subnet
-$SecurityGroupId = "sg-xxxxxxxx"       # RDP (3389) sadece workshop salonunun IP'sinden
+$SecurityGroupId = "sg-xxxxxxxx"       # RDP (3389) salonun IP'sinden. Instance-arasi trafik (8000/8001/9999) 02-launch tarafindan otomatik acilir.
 $VolumeSizeGiB   = 60                  # Disk boyutu (GiB). AMI'deki diskten buyukse klonlarda buyutulur
 $KeyName         = ""                  # Opsiyonel; xdr-user AMI'den geldigi icin sart degil
 
