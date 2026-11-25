@@ -66,6 +66,16 @@ if ($quick) {
     }
 }
 
+# --- 1a2. UAC'yi kapat ---
+# Lab adimlari (net user /add, Register-ScheduledTask -RunLevel Highest, reverse shell
+# icinden persistence) admin gerektirir. UAC acikken admin kullanici bile process'leri
+# yukseltmeden baslatir -> reverse shell "Access is denied" alir. Lab ortami oldugu icin
+# UAC kapatiliyor; AMI alinirken makine yeniden baslayinca gecerli olur.
+try {
+    Set-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System' -Name EnableLUA -Value 0 -ErrorAction Stop
+    Write-Host "==> UAC kapatildi (yeniden baslatmada gecerli olur)" -ForegroundColor Cyan
+} catch { Write-Host "    UYARI: UAC kapatilamadi: $($_.Exception.Message)" -ForegroundColor Yellow }
+
 # --- 1b. Defender exclusion'lari EKLE (extract'ten ONCE) ---
 Write-Host "==> Defender exclusion: C:\x_test ve stage klasoru" -ForegroundColor Cyan
 $stageDir = "C:\WorkshopSetup"
